@@ -1,0 +1,19 @@
+{
+  "name": "@s402/fetch",
+  "version": "0.1.0",
+  "description": "Fetch wrapper for s402 client-side payment signing",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@s402/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.16",
+    "typescript": "^5.3.3"
+  }
+}
