@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Solana-based API payment solution with RFC 9421 HTTP message signatures",
+  "packageManager": "pnpm@9.14.2",
   "scripts": {
     "test": "jest",
     "build": "cd packages/core && pnpm run build && cd ../react && pnpm run build && cd ../../examples/webapp && pnpm run build && cp -r dist ../../dist",

@@ -61,10 +61,11 @@ pnpm test
 
 The repo is set up for Cloudflare Pages (or Wrangler direct upload):
 
+- **Commit the lockfile:** `pnpm-lock.yaml` must be committed so Cloudflare uses pnpm (and installs the monorepo workspace). If it was previously ignored, run `pnpm install` then `git add pnpm-lock.yaml` and commit.
 - **Build:** From repo root, `pnpm run build` builds `@s402/core`, `@s402/react`, and the webapp, then copies output to `dist/`.
 - **Deploy:** `pnpm run deploy` (or `npx wrangler pages deploy dist --project-name=s402-webapp`).
 
-In the Cloudflare dashboard (Pages, Git): set **Build command** to `pnpm run build`, **Build output directory** to `dist`. For custom deploy step use `npx wrangler pages deploy dist --project-name=<your-project-name>`.
+In the Cloudflare dashboard (Pages, Git): set **Build command** to `pnpm run build`, **Build output directory** to `dist`. Cloudflare will detect pnpm from `pnpm-lock.yaml` and run `pnpm install` from the repo root so workspace packages (`@s402/core`, `@s402/react`) resolve correctly.
 
 ### Running the Example
 

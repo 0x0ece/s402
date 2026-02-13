@@ -1,6 +1,6 @@
 # Dependencies
 node_modules/
-pnpm-lock.yaml
+# pnpm-lock.yaml committed so Cloudflare Pages detects pnpm and installs workspace
 
 # Build outputs
 dist/
