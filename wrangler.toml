@@ -1,6 +1,14 @@
-# Cloudflare Pages – S402 webapp
+# Deploy Express server + static assets to Cloudflare Workers
 # Build: pnpm run build  (produces ./dist)
-# Deploy: pnpm run deploy  (deploys dist to Pages)
+# Deploy: pnpm run deploy
 
 name = "s402"
-pages_build_output_dir = "./dist"
+main = "examples/webapp/worker.ts"
+compatibility_date = "2026-02-12"
+compatibility_flags = ["nodejs_compat"]
+
+# Static assets (./dist) bound as ASSETS; server serves them for non-API routes
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"

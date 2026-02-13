@@ -9,7 +9,7 @@
     "build": "cd packages/core && pnpm run build && cd ../react && pnpm run build && cd ../../examples/webapp && pnpm run build && cp -r dist ../../dist",
     "build:all": "pnpm -r build",
     "ci": "pnpm install && pnpm run build",
-    "deploy": "wrangler pages deploy dist --project-name=s402",
+    "deploy": "wrangler deploy",
     "clean": "pnpm -r clean && rm -rf node_modules"
   },
   "devDependencies": {
