@@ -20,6 +20,30 @@ export interface SolanaTransaction {
   to: string;
 }
 
+/** RPC URL for Solana mainnet (s402 default) */
+export const S402_MAINNET_RPC_URL = 'http://rpc.s402.dev:28899/?api-key=f6cuHKquILzZa07nq6r1X19IYL654I1e';
+
+/**
+ * Get RPC URL for a given network (CAIP-2 or legacy name).
+ * Exported so wallet/connection providers can use the same RPC.
+ */
+export function getRpcUrlForNetwork(network: string): string {
+  if (network.includes(':')) {
+    const parts = network.split(':');
+    const chainId = parts[1];
+    if (chainId === 'EtWTRABZaYq6iMfeYKouRu166VU2xqa1') {
+      return 'https://api.devnet.solana.com';
+    }
+    if (chainId === '5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp') {
+      return S402_MAINNET_RPC_URL;
+    }
+  }
+  if (network === 'mainnet' || network === 'mainnet-beta') {
+    return S402_MAINNET_RPC_URL;
+  }
+  return 'https://api.devnet.solana.com';
+}
+
 /**
  * Solana RPC client wrapper for devnet/mainnet interactions
  */
@@ -29,33 +53,8 @@ export class SolanaClient {
 
   constructor(network: string = 'devnet') {
     this.network = network;
-    
-    // Map network identifier to RPC URL
-    const rpcUrl = this.getRpcUrl(network);
+    const rpcUrl = getRpcUrlForNetwork(network);
     this.connection = new Connection(rpcUrl, 'confirmed');
-  }
-
-  /**
-   * Get RPC URL for network
-   */
-  private getRpcUrl(network: string): string {
-    // Handle CAIP-2 format: solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1
-    if (network.includes(':')) {
-      const parts = network.split(':');
-      const chainId = parts[1];
-      
-      // Solana devnet chain ID
-      if (chainId === 'EtWTRABZaYq6iMfeYKouRu166VU2xqa1') {
-        return 'https://api.devnet.solana.com';
-      }
-      // Solana mainnet chain ID
-      if (chainId === '5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp') {
-        return 'https://api.mainnet-beta.solana.com';
-      }
-    }
-    
-    // Default to devnet
-    return 'https://api.devnet.solana.com';
   }
 
   /**

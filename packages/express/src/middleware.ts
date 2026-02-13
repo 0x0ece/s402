@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyRequest, importPublicKey, HttpRequest, verifyPayment, PaymentRequiredResponse, PaymentType, PaymentOption } from '@s402/core';
+import { verifyRequest, importPublicKey, HttpRequest, verifyPayment, paymentOptionToX402Accept, PaymentRequiredResponse, PaymentType, PaymentOption } from '@s402/core';
 import { MiddlewareConfig } from './types';
 
 /**
@@ -96,23 +96,31 @@ export function paymentMiddleware(config: MiddlewareConfig) {
 
       if (!anyValid) {
         console.log('[s402] Payment required - no valid payment method found');
-        
-        // Return 402 with ALL payment options
+
+        const optionsForResponse = paymentOptions.map(opt => ({
+          paymentType: opt.paymentType,
+          serverPublicKey: opt.payTo,
+          subscriptionPrice: opt.subscriptionPrice,
+          subscriptionTime: opt.subscriptionTime,
+          network: opt.network,
+          tokenMint: opt.tokenMint,
+          validatorVoteAccount: opt.validatorVoteAccount,
+          minimumStakeAmount: opt.minimumStakeAmount
+        }));
+
+        const accepts = optionsForResponse.map(paymentOptionToX402Accept);
+
         const paymentResponse: PaymentRequiredResponse = {
           error: 'Payment Required',
           message: 'Please send payment using one of the available methods',
-          paymentOptions: paymentOptions.map(opt => ({
-            paymentType: opt.paymentType,
-            serverPublicKey: opt.payTo,
-            subscriptionPrice: opt.subscriptionPrice,
-            subscriptionTime: opt.subscriptionTime,
-            network: opt.network,
-            tokenMint: opt.tokenMint,
-            validatorVoteAccount: opt.validatorVoteAccount,
-            minimumStakeAmount: opt.minimumStakeAmount
-          }))
+          paymentOptions: optionsForResponse,
+          accepts
         };
 
+        res.setHeader(
+          'PAYMENT-REQUIRED',
+          Buffer.from(JSON.stringify({ accepts }), 'utf-8').toString('base64')
+        );
         return res.status(402).json(paymentResponse);
       }
       

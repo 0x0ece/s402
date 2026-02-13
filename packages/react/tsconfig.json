@@ -4,13 +4,12 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "jsx": "react",
+    "lib": ["ES2022", "DOM"],
     "declaration": true,
     "declarationMap": true,
     "module": "ESNext",
     "moduleResolution": "node"
   },
   "include": ["src/**/*"],
-  "references": [
-    { "path": "../core" }
-  ]
+  "references": [{ "path": "../core" }]
 }

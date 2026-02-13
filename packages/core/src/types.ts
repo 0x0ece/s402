@@ -98,12 +98,32 @@ export interface PaymentOption {
 }
 
 /**
+ * x402-compatible payment requirements (single option)
+ */
+export interface X402PaymentRequirements {
+  scheme: 'exact';
+  network: string;
+  amount: string;
+  destination: string;
+  asset?: string;
+}
+
+/**
+ * x402-compatible accept entry
+ */
+export interface X402AcceptEntry {
+  paymentRequirements: X402PaymentRequirements;
+}
+
+/**
  * Response for 402 Payment Required
  */
 export interface PaymentRequiredResponse {
   error: string;
   message: string;
   paymentOptions: PaymentOption[];
+  /** x402-compatible list of accepted payment options */
+  accepts?: X402AcceptEntry[];
 }
 
 /**

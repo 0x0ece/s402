@@ -14,7 +14,7 @@ export * from './signer';
 export * from './verifier';
 
 // Solana functionality
-export { SolanaClient, SolanaTransaction } from './solana/client';
+export { SolanaClient, SolanaTransaction, getRpcUrlForNetwork, S402_MAINNET_RPC_URL } from './solana/client';
 export { calculateCredits, hasValidCredits, calculateTimeForPayment, calculateMinimumPayment } from './solana/verifier';
 export { sendPayment, getBalance, PaymentResult } from './solana/sender';
 export { CreditCache, CachedCredit, getCreditCache, resetCreditCache } from './solana/cache';

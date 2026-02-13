@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@s402/core": "workspace:*",
+    "@solana/pay": "^0.2.6",
     "@solana/spl-token": "^0.4.1",
+    "bignumber.js": "^9.1.2",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.39",
     "@solana/wallet-adapter-react-ui": "^0.9.39",

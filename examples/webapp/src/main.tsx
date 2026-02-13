@@ -11,7 +11,7 @@ import './styles/app.css';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <S402Provider network="devnet">
+      <S402Provider network="mainnet-beta">
         <App />
       </S402Provider>
     </BrowserRouter>

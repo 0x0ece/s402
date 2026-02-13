@@ -1,6 +1,11 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { Buffer } from 'buffer';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const root = path.resolve(__dirname, '../..');
 
 // Make Buffer available globally for Solana libraries
 globalThis.Buffer = Buffer;
@@ -33,9 +38,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      // Force Vite to use the source files instead of compiled dist
-      '@s402/core': '/data/ecesena/s402/packages/core/src/index.ts',
-      '@s402/react': '/data/ecesena/s402/packages/react/src/index.ts'
+      '@s402/core': path.join(root, 'packages/core/dist/index.js'),
+      '@s402/react': path.join(root, 'packages/react/dist/index.js')
     }
   },
   build: {

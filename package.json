@@ -5,7 +5,9 @@
   "description": "Solana-based API payment solution with RFC 9421 HTTP message signatures",
   "scripts": {
     "test": "jest",
-    "build": "pnpm -r build",
+    "build": "cd packages/core && pnpm run build && cd ../react && pnpm run build && cd ../../examples/webapp && pnpm run build && cp -r dist ../../dist",
+    "build:all": "pnpm -r build",
+    "deploy": "wrangler pages deploy dist --project-name=s402-webapp",
     "clean": "pnpm -r clean && rm -rf node_modules"
   },
   "devDependencies": {
@@ -13,7 +15,8 @@
     "@types/node": "^20.11.16",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "wrangler": "^3.99.0"
   },
   "engines": {
     "node": ">=18.0.0"

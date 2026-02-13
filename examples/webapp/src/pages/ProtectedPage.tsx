@@ -97,6 +97,21 @@ const ProtectedPage: React.FC = () => {
     setError('Payment cancelled');
   };
 
+  const handlePaymentDetected = async (_option: PaymentOption) => {
+    setShowPaymentModal(false);
+    setCurrentPaymentOptions([]);
+    setLoading(true);
+    setError(null);
+    try {
+      await new Promise((r) => setTimeout(r, 1000));
+      await fetchProtectedContent();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to refresh after payment');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (publicKey && !data) {
       fetchProtectedContent();
@@ -174,6 +189,7 @@ const ProtectedPage: React.FC = () => {
         onSelect={handlePaymentSelect}
         onCancel={handleCancelPayment}
         isProcessing={isProcessingPayment}
+        onPaymentDetected={handlePaymentDetected}
       />
     </div>
   );

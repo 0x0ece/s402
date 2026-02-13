@@ -14,36 +14,34 @@ const PORT = 3001;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// Using the same keys as hello example for easy testing
-// Client: J5WaEwb2LYyGbhpPju1a1MaQr1poJ8DzLQ2mALxmYEss (already has devnet SOL)
-// Server: 9JX32u4tPkQiGN1KfJzsC8cGnhNxjbdKRukD9eL2J15J (receives payments)
-const SERVER_SOL_PUBKEY = '9JX32u4tPkQiGN1KfJzsC8cGnhNxjbdKRukD9eL2J15J';
+// Single destination for all payments (Solana Pay, normal tx, SOL and USDC)
+const PAYMENT_DESTINATION = 's4o2ELcyPYkx37UsJKfs6kUwCsimWjBRa6qThVyVLE2';
 const CLIENT_PUBLIC_KEY = 'J5WaEwb2LYyGbhpPju1a1MaQr1poJ8DzLQ2mALxmYEss';
 
-// USDC devnet mint (for future use)
-// const USDC_DEVNET_MINT = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
+// USDC mint (same on mainnet and devnet)
+const USDC_MINT = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
 
-// Payment configurations (same as hello example for easy testing)
+const MAINNET = 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp';
+
+// Payment configurations — all payments go to PAYMENT_DESTINATION (mainnet)
 const paymentOptions = [
-  // Option 1: SOL payment (same as hello example)
   createPaymentConfig(
-    SERVER_SOL_PUBKEY,
-    0.001, // 0.001 SOL per 60 seconds
-    60,    
-    'solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1', // devnet
+    PAYMENT_DESTINATION,
+    0.01, // 0.01 SOL per 60 seconds
+    60,
+    MAINNET,
     PaymentType.SOL
-  )
-  
-  // Additional payment options can be added:
-  // Option 2: USDC payment
-  // {
-  //   payTo: SERVER_SOL_PUBKEY,
-  //   paymentType: PaymentType.USDC,
-  //   subscriptionPrice: 0.01,
-  //   subscriptionTime: 60,
-  //   network: 'solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1',
-  //   tokenMint: USDC_DEVNET_MINT
-  // }
+  ),
+  {
+    ...createPaymentConfig(
+      PAYMENT_DESTINATION,
+      0.1, // 0.1 USDC per 60 seconds
+      60,
+      MAINNET,
+      PaymentType.USDC
+    ),
+    tokenMint: USDC_MINT
+  }
 ];
 
 // Optional: Initialize staking option (commented out for simpler testing)
@@ -98,10 +96,12 @@ app.listen(PORT, () => {
   console.log(`📡 API endpoint: http://localhost:${PORT}/api/protected`);
   console.log(`💚 Health check: http://localhost:${PORT}/api/health`);
   console.log(`\n💰 Payment Options:`);
-  console.log(`   1. SOL: 0.001 SOL per 60 seconds`);
+  console.log(`   1. SOL: 0.01 SOL per 60 seconds`);
+  console.log(`   2. USDC: 0.1 USDC per 60 seconds`);
   console.log(`\n🏦 Payment Details:`);
-  console.log(`   Server receives at: ${SERVER_SOL_PUBKEY}`);
-  console.log(`   Test with wallet: ${CLIENT_PUBLIC_KEY} (has devnet SOL)`);
+  console.log(`   Server receives at: ${PAYMENT_DESTINATION}`);
+  console.log(`   Network: mainnet | RPC: rpc.s402.dev`);
+  console.log(`   Test wallet: ${CLIENT_PUBLIC_KEY}`);
   console.log(`\n💡 Tip: Import this private key to test:`);
   console.log(`   b19703725b64c69fda8b0e146d6c27c7d5ade963d3c5cc1dcef8a8d71c4ec1dc\n`);
 });

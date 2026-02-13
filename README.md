@@ -47,12 +47,24 @@ S402 is a TypeScript library inspired by [x402](https://docs.x402.org/) that ena
 # Install dependencies
 pnpm install
 
-# Build all packages
+# Build (webapp for Cloudflare: produces root dist/)
 pnpm build
+
+# Or build all monorepo packages
+pnpm run build:all
 
 # Run tests
 pnpm test
 ```
+
+### Deploying the webapp (Cloudflare Pages)
+
+The repo is set up for Cloudflare Pages (or Wrangler direct upload):
+
+- **Build:** From repo root, `pnpm run build` builds `@s402/core`, `@s402/react`, and the webapp, then copies output to `dist/`.
+- **Deploy:** `pnpm run deploy` (or `npx wrangler pages deploy dist --project-name=s402-webapp`).
+
+In the Cloudflare dashboard (Pages, Git): set **Build command** to `pnpm run build`, **Build output directory** to `dist`. For custom deploy step use `npx wrangler pages deploy dist --project-name=<your-project-name>`.
 
 ### Running the Example
 

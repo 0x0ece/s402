@@ -38,3 +38,6 @@ pnpm-debug.log*
 # Temporary files
 *.tmp
 .cache/
+
+# Deploy clone for GitHub Pages (do not commit)
+_deploy_pages/

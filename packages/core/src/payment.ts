@@ -1,4 +1,4 @@
-import { PaymentConfig, ClientCredits, PaymentType } from './types';
+import { PaymentConfig, ClientCredits, PaymentType, PaymentOption, X402AcceptEntry } from './types';
 import { SolanaClient } from './solana/client';
 import { calculateCredits, hasValidCredits } from './solana/verifier';
 import { getCreditCache } from './solana/cache';
@@ -166,6 +166,31 @@ async function verifyStakePayment(
   );
 
   return result.credits || null;
+}
+
+/**
+ * Format amount as decimal string for x402 (no scientific notation)
+ */
+function amountToDecimalString(n: number): string {
+  const s = n.toFixed(12);
+  return s.replace(/\.?0+$/, '') || '0';
+}
+
+/**
+ * Convert a payment option to x402-compatible accept entry.
+ * SOL and USDC are mapped; STAKE is included with same destination/amount.
+ */
+export function paymentOptionToX402Accept(opt: PaymentOption): X402AcceptEntry {
+  const requirements: X402AcceptEntry['paymentRequirements'] = {
+    scheme: 'exact',
+    network: opt.network,
+    amount: amountToDecimalString(opt.subscriptionPrice),
+    destination: opt.serverPublicKey
+  };
+  if (opt.paymentType === PaymentType.USDC && opt.tokenMint) {
+    requirements.asset = opt.tokenMint;
+  }
+  return { paymentRequirements: requirements };
 }
 
 /**

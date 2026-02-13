@@ -19,4 +19,6 @@ export interface PaymentModalProps {
   onSelect: (option: PaymentOption) => void;
   onCancel: () => void;
   isProcessing?: boolean;
+  /** Called when payment is detected via QR (same wallet). Use to close modal and retry without sending a new tx. */
+  onPaymentDetected?: (option: PaymentOption) => void;
 }
