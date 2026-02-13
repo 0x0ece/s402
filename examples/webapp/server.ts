@@ -46,7 +46,11 @@ export interface WorkerEnv {
 export function createApp(env?: WorkerEnv): express.Express {
   const app = express();
 
-  app.use(express.json());
+  // Skip express.json() on Workers to avoid body-parser/raw-body (Node APIs that trigger error 10021).
+  // All current API routes are GET-only; add JSON parsing only when needed for POST.
+  if (!env?.ASSETS) {
+    app.use(express.json());
+  }
 
   if (!env?.ASSETS) {
     // Local: serve static files from disk
