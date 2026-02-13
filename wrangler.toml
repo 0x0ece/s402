@@ -1,7 +1,6 @@
 # Cloudflare Pages – S402 webapp
-# Build (repo root): pnpm run build  → produces ./dist
-# Deploy: pnpm run deploy  or  npx wrangler pages deploy dist --project-name=s402-webapp
-# In Cloudflare dashboard: Build command = pnpm run build, Build output directory = dist
+# In dashboard: set SKIP_DEPENDENCY_INSTALL=1, Build command = pnpm run ci, Build output = dist
+# Local deploy: pnpm run deploy
 
 name = "s402-webapp"
 pages_build_output_dir = "./dist"
