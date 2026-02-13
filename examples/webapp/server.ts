@@ -1,8 +1,8 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { paymentMiddleware } from '@s402/express';
-import { createPaymentConfig, PaymentType } from '@s402/core';
+import { paymentMiddleware } from '../../packages/express/dist/index.js';
+import { createPaymentConfig, PaymentType } from '../../packages/core/dist/index.js';
 
 // ES module compatibility
 const __filename = fileURLToPath(import.meta.url);
@@ -35,7 +35,7 @@ const paymentOptions = [
 ];
 
 export interface WorkerEnv {
-  ASSETS: Fetcher;
+  ASSETS: { fetch(request: Request): Promise<Response> };
 }
 
 /**
