@@ -134,7 +134,7 @@ examples/webapp/
 ├── QUICKSTART.md          # Quick start guide
 ├── README.md              # This file
 ├── package.json
-├── vite.config.ts
+├── vite.config.mts
 ├── index.html
 └── src/
     ├── main.tsx

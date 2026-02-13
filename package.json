@@ -6,7 +6,7 @@
   "packageManager": "pnpm@9.14.2",
   "scripts": {
     "test": "jest",
-    "build": "cd packages/core && pnpm run build && cd ../express && pnpm run build && cd ../react && pnpm run build && cd ../../examples/webapp && pnpm run build && cp -r dist ../../dist",
+    "build": "cd packages/core && pnpm run build && cd ../express && pnpm run build && cd ../react && pnpm run build && cd ../../examples/webapp && pnpm run build && rm -rf ../../dist && cp -r dist/client ../../dist",
     "build:all": "pnpm -r build",
     "ci": "pnpm install && pnpm run build",
     "deploy": "wrangler deploy",
