@@ -2,5 +2,5 @@
 # In dashboard: set SKIP_DEPENDENCY_INSTALL=1, Build command = pnpm run ci, Build output = dist
 # Local deploy: pnpm run deploy
 
-name = "s402-webapp"
+name = "s402"
 pages_build_output_dir = "./dist"
