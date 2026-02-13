@@ -1,6 +1,6 @@
 # Cloudflare Pages – S402 webapp
-# In dashboard: set SKIP_DEPENDENCY_INSTALL=1, Build command = pnpm run ci, Build output = dist
-# Local deploy: pnpm run deploy
+# Build: pnpm run build  (produces ./dist)
+# Deploy: pnpm run deploy  (deploys dist to Pages)
 
 name = "s402"
 pages_build_output_dir = "./dist"
